@@ -151,6 +151,11 @@ class Timerole(Cog):
         current_setting = await self.config.guild(guild).reapply()
         await self.config.guild(guild).reapply.set(not current_setting)
         await ctx.maybe_send_embed(f"Reapplying roles is now set to: {not current_setting}")
+        
+    @timerole.command()
+    async def forceupdate(self, ctx: commands.Context):
+        """Force roles update"""
+        await self.timerole_update()
 
     @timerole.command()
     async def delrole(self, ctx: commands.Context, role: discord.Role):
