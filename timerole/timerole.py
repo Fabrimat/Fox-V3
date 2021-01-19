@@ -13,11 +13,11 @@ from redbot.core.utils.chat_formatting import pagify
 log = logging.getLogger("red.fox_v3.timerole")
 
 
-async def sleep_till_next_hour():
+async def sleep_till_next_time():
     now = datetime.utcnow()
-    next_hour = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour + 1)
-    log.debug("Sleeping for {} seconds".format((next_hour - datetime.utcnow()).seconds))
-    await asyncio.sleep((next_hour - datetime.utcnow()).seconds)
+    next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
+    log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+    await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
 async def announce_to_channel(channel, results, title):
@@ -372,7 +372,6 @@ class Timerole(Cog):
     #             role_list.append((member, role_id))
 
     async def check_hour(self):
-        await sleep_till_next_hour()
         while self is self.bot.get_cog("Timerole"):
             await self.timerole_update()
-            await sleep_till_next_hour()
+            await sleep_till_next_time()
