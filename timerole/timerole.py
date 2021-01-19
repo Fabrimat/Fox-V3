@@ -217,6 +217,9 @@ class Timerole(Cog):
                 addlist = []
                 removelist = []
 
+                if member.pending or member.bot:
+                    continue
+                
                 for role_id, role_data in role_dict.items():
                     # Skip non-configured roles
                     if not role_data:
