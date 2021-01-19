@@ -156,6 +156,7 @@ class Timerole(Cog):
     async def forceupdate(self, ctx: commands.Context):
         """Force roles update"""
         await self.timerole_update()
+        await ctx.maybe_send_embed(f"Done")
 
     @timerole.command()
     async def delrole(self, ctx: commands.Context, role: discord.Role):
