@@ -176,7 +176,8 @@ class Timerole(Cog):
 
     @tasks.loop(minutes=1.0)
     async def timerole_update(self):
-        a
+        await wait_until_red_ready()
+        log.info("done")
         utcnow = datetime.utcnow()
         all_guilds = await self.config.all_guilds()
 
