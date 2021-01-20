@@ -361,14 +361,14 @@ class Timerole(Cog):
     #             # Qualifies
     #             role_list.append((member, role_id))
 
-    async def sleep_till_next_time():
+    async def sleep_till_next_time(self):
         now = datetime.utcnow()
         next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
         log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
         await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
-    async def announce_to_channel(channel, results, title):
+    async def announce_to_channel(self, channel, results, title):
         if channel is not None and results:
             await channel.send(title)
             for page in pagify(results, shorten_by=50):
