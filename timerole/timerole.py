@@ -33,8 +33,31 @@ class Timerole(Cog):
         self.timerole_update.start()
         #self.updating = asyncio.create_task(self.check_hour())
 
-    async def red_delete_data_for_user(self, **kwargs):
-        """Nothing to delete"""
+    
+    @bot.event
+    async def on_member_remove(member):
+        all_guilds = await self.config.all_guilds()
+        for guild in self.bot.guilds:
+            guild_id = guild.id
+            if guild_id not in all_guilds:
+                log.debug(f"Guild has no configured settings: {guild}")
+                continue
+
+            role_dict = all_guilds[guild_id]["roles"]
+
+            if not any(role_data for role_data in role_dict.values()):  # No roles
+                log.debug(f"No roles are configured for guild: {guild}")
+                continue
+
+            for role_id, role_data in role_dict.items():
+                # Skip non-configured roles
+                if not role_data:
+                    continue
+
+                #mr_dict = await self.config.custom("RoleMember", role_id, member.id).all()
+                await self.config.custom("RoleMember", role_id, user_id).clear()
+    
+    async def red_delete_data_for_user(self, requester, user_id):
         return
 
     def cog_unload(self):
