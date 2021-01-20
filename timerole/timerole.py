@@ -16,7 +16,7 @@ log = logging.getLogger("red.fox_v3.timerole")
 async def sleep_till_next_time():
     now = datetime.utcnow()
     next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
-    log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+    log.info("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
     await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
@@ -24,7 +24,7 @@ async def announce_to_channel(channel, results, title):
     if channel is not None and results:
         await channel.send(title)
         for page in pagify(results, shorten_by=50):
-            await channel.send(page)
+            await channel.send(page + "\n")
     elif results:  # Channel is None, log the results
         log.info(results)
 
