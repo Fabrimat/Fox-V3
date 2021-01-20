@@ -16,7 +16,8 @@ log = logging.getLogger("red.fox_v3.timerole")
 async def sleep_till_next_time():
     now = datetime.utcnow()
     next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
-    log.info("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+    log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+    print("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
     await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
