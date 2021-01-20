@@ -30,6 +30,7 @@ class Timerole(Cog):
         self.config.init_custom("RoleMember", 2)
         self.config.register_custom("RoleMember", **default_rolemember)
 
+        self.timerole_update.start()
         #self.updating = asyncio.create_task(self.check_hour())
 
     async def red_delete_data_for_user(self, **kwargs):
@@ -37,7 +38,8 @@ class Timerole(Cog):
         return
 
     def cog_unload(self):
-        self.updating.cancel()
+        self.timerole_update.cancel()
+        #self.updating.cancel()
 
     @commands.command()
     @checks.guildowner()
