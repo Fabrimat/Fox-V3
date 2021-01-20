@@ -174,10 +174,9 @@ class Timerole(Cog):
                 out += f"{role} | {r_data['days']} days | requires: {r_roles}\n"
         await ctx.maybe_send_embed(out)
 
-    @tasks.loop(minutes=1.0)
+    @tasks.loop(minutes=30.0)
     async def timerole_update(self):
         await self.bot.wait_until_red_ready()
-        log.info("done")
         utcnow = datetime.utcnow()
         all_guilds = await self.config.all_guilds()
 
