@@ -316,10 +316,10 @@ class Timerole(Cog):
 
             if add_results:
                 title = "**These members have received the following roles**\n"
-                await announce_to_channel(channel, add_results, title)
+                await self.announce_to_channel(channel, add_results, title)
             if remove_results:
                 title = "**These members have lost the following roles**\n"
-                await announce_to_channel(channel, remove_results, title)
+                await self.announce_to_channel(channel, remove_results, title)
         # End
 
     # async def announce_roles(self, title, role_list, channel, guild, to_add: True):
