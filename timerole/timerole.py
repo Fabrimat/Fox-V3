@@ -12,24 +12,6 @@ from redbot.core.utils.chat_formatting import pagify
 
 log = logging.getLogger("red.fox_v3.timerole")
 
-
-async def sleep_till_next_time():
-    now = datetime.utcnow()
-    next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
-    log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
-    print("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
-    await asyncio.sleep((next_time - datetime.utcnow()).seconds)
-
-
-async def announce_to_channel(channel, results, title):
-    if channel is not None and results:
-        await channel.send(title)
-        for page in pagify(results, shorten_by=50):
-            await channel.send(page + "\n")
-    elif results:  # Channel is None, log the results
-        log.info(results)
-
-
 class Timerole(Cog):
     """Add roles to users based on time on server"""
 
@@ -381,6 +363,22 @@ class Timerole(Cog):
     #             # Qualifies
     #             role_list.append((member, role_id))
 
+    async def sleep_till_next_time():
+        now = datetime.utcnow()
+        next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
+        log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+        await self.bot.send_to_owners("DEBUG: Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+        await asyncio.sleep((next_time - datetime.utcnow()).seconds)
+
+
+    async def announce_to_channel(channel, results, title):
+        if channel is not None and results:
+            await channel.send(title)
+            for page in pagify(results, shorten_by=50):
+                await channel.send(page + "\n")
+        elif results:  # Channel is None, log the results
+            log.info(results)
+    
     async def check_hour(self):
         while self is self.bot.get_cog("Timerole"):
             await self.timerole_update()
