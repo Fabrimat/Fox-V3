@@ -368,6 +368,7 @@ class Timerole(Cog):
         next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
         log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
         await self.bot.send_to_owners("DEBUG: Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
+        a
         await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
