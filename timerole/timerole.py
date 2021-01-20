@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 
 import discord
+from discord.ext import tasks
 from redbot.core import Config, checks, commands
 from redbot.core.bot import Red
 from redbot.core.commands import Cog, parse_timedelta
@@ -29,7 +30,7 @@ class Timerole(Cog):
         self.config.init_custom("RoleMember", 2)
         self.config.register_custom("RoleMember", **default_rolemember)
 
-        self.updating = asyncio.create_task(self.check_hour())
+        #self.updating = asyncio.create_task(self.check_hour())
 
     async def red_delete_data_for_user(self, **kwargs):
         """Nothing to delete"""
@@ -171,7 +172,9 @@ class Timerole(Cog):
                 out += f"{role} | {r_data['days']} days | requires: {r_roles}\n"
         await ctx.maybe_send_embed(out)
 
+    @tasks.loop(minutes=1.0)
     async def timerole_update(self):
+        a
         utcnow = datetime.utcnow()
         all_guilds = await self.config.all_guilds()
 
@@ -367,8 +370,6 @@ class Timerole(Cog):
         now = datetime.utcnow()
         next_time = datetime(year=now.year, month=now.month, day=now.day, hour=now.hour, minute=now.minute + 30)
         log.debug("Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
-        await self.bot.send_to_owners("DEBUG: Sleeping for {} seconds".format((next_time - datetime.utcnow()).seconds))
-        a
         await asyncio.sleep((next_time - datetime.utcnow()).seconds)
 
 
